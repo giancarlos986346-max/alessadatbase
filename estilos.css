@@ -1,0 +1,338 @@
+/* ======== Reset básico ======== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", Arial, sans-serif;
+}
+
+/* ======== Header ======== */
+body {
+  background: linear-gradient(135deg, #386896c0, #e5e1f7);
+  color: #fff;
+  min-height: 100vh;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 4rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.logo img {
+  width: 28px;
+  height: 28px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #e2e2e2;
+  font-size: 0.95rem;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #fff;
+}
+
+.btn-header {
+  background-color: white;
+  color: #2e1f74;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.btn-header:hover {
+  background-color: #e8e8e8;
+}
+
+/* ======== Hero Section ======== */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3rem 4rem;
+  gap: 2rem;
+}
+
+.hero-content {
+  max-width: 50%;
+}
+
+.hero-content .tag {
+  display: inline-block;
+  background-color: rgba(97, 97, 97, 0.623);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1rem;
+  color: #e0e0e0;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-primary {
+  background-color: white;
+  color: #1f6074;
+  padding: 0.7rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: #1f6074;     /* efecto hover */
+  color: #ffffff
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.hero-image img {
+  width: 480px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* ======== Responsivo ======== */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+  .hero-content {
+    max-width: 100%;
+  }
+  .hero-image img {
+    width: 100%;
+  }
+  .seccion-caracteristicas {
+    text-align: center;
+  }
+
+  .caracteristica {
+    text-align: center;
+  }
+
+  .caracteristica .icono {
+    position: static;
+    margin-bottom: 1rem;
+  }
+
+  .caracteristica h3 {
+    margin-top: 0.5rem;
+  }
+}
+
+  /* ===================== */
+/* SECCIÓN: COMPROMISO */
+/* ===================== */
+
+.seccion-compromiso {
+  background-color: white;
+  display: grid;
+  place-items: center; 
+  align-items: center;
+  justify-content: space-between;
+  padding: 3rem 4rem;
+  gap: 2rem;
+}
+
+.contenedor-compromiso {
+  max-width: 50%;
+  text-align: center;
+}
+
+.seccion-compromiso h2 {
+  font-size: 2rem;         /* proporcional al hero h1 (3rem) */
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1f6074;            /* color corporativo oscuro */
+  letter-spacing: 0.5px;
+}
+
+.seccion-compromiso p {
+  font-size: 1rem;           /* igual que el hero p */
+  color: #2b2b2b;            /* contraste con fondo claro */
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* ===================== */
+/* SECCIÓN: CARACTERÍSTICAS */
+/* ===================== */
+.seccion-caracteristicas {
+  background-color: white;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.seccion-caracteristicas h2 {
+  color: #1f6074;
+  font-size: 2rem;
+  margin-bottom: 3rem;
+}
+
+.grid-caracteristicas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.caracteristica {
+  background: linear-gradient(135deg, #CDE0F0, #e5e1f7);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: left;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.caracteristica:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(29, 29, 29, 0.404);
+}
+
+.caracteristica .icono {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+.caracteristica h3 {
+  color: #1f6074;
+  margin-top: 3rem;
+  font-size: 1.2rem;
+}
+
+.caracteristica p {
+  color: #555;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* --- FOOTER --- */
+.footer {
+  background: linear-gradient(135deg, #1f6074, #386896);
+  color: #ffffff;
+  padding: 3rem 2rem 1.5rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer-logo h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.footer-logo p {
+  font-size: 0.95rem;
+  color: #e0e0e0;
+  line-height: 1.5;
+}
+
+/* --- ENLACES --- */
+.footer-links h4,
+.footer-contact h4 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links ul li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links ul li a {
+  color: #e0e0e0;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links ul li a:hover {
+  color: #ffffff;
+}
+
+/* --- CONTACTO --- */
+.footer-contact p {
+  font-size: 0.95rem;
+  color: #e0e0e0;
+  margin-bottom: 0.5rem;
+}
+
+/* --- COPYRIGHT --- */
+.footer-bottom {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.footer-bottom p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
