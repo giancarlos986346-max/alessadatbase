@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Nuevo formulario - Alessa Database</title>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; color: #333333; margin: 0; padding: 0; background-color: #f4f6f8;">
+  <table align="center" width="600" cellpadding="0" cellspacing="0" style="margin: 20px auto; background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+    <tr>
+      <td style="background-color: #236fa1; padding: 14px 20px;">
+        <h2 style="color: #ffffff; margin: 0;">Alessa Database - Nuevo formulario</h2>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 20px;">
+        <p>Estimado equipo,</p>
+        <p>Se ha recibido una nueva solicitud a través del formulario de consulta del sitio web.<br>
+        A continuación, se detalla la información proporcionada por el remitente:</p>
+
+        <!-- Bloque de datos dinámicos -->
+        <table width="100%" cellpadding="6" cellspacing="0" style="border-collapse: collapse; margin: 15px 0;">
+          <tbody>
+            <tr><td style="border-bottom: 1px solid #e0e0e0;"><strong>Nombre:</strong> {name}</td></tr>
+            <tr><td style="border-bottom: 1px solid #e0e0e0;"><strong>Email:</strong> {email}</td></tr>
+            <tr><td style="border-bottom: 1px solid #e0e0e0;"><strong>Teléfono:</strong> {phone}</td></tr>
+            <tr><td style="border-bottom: 1px solid #e0e0e0;"><strong>Empresa:</strong> {company}</td></tr>
+            <tr><td style="border-bottom: 1px solid #e0e0e0;"><strong>Servicio:</strong> {service}</td></tr>
+            <tr><td style="border-bottom: 1px solid #e0e0e0;"><strong>Mensaje:</strong><br>{message}</td></tr>
+          </tbody>
+        </table>
+
+        <p>Por favor, agendar una reunión o dar seguimiento a la brevedad posible.</p>
+        <p>Atentamente,<br><strong>Alessa Cloud</strong><br><em>Notificación automática — no responder a este mensaje.</em></p>
+      </td>
+    </tr>
+    <tr>
+      <td style="background-color: #f0f0f0; text-align: center; padding: 10px; font-size: 12px; color: #777;">
+        © 2025 Alessa Database. Todos los derechos reservados.
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

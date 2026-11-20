@@ -1,0 +1,20 @@
+# Credenciales (en Hostinger el .env vive fuera de public_html)
+.env
+.env.*
+!.env.example
+
+# Estado de ejecución generado por el servidor
+php/Security/ratelimit.json
+logs/
+*.log
+
+# Archivos de trabajo que no forman parte del sitio
+@layout.pptx
+00readme.md
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
