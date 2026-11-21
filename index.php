@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="estilos.css?v=3.1" />
+  <link rel="stylesheet" href="estilos.css?v=3.4" />
 </head>
 <body>
   <!-- Header -->
@@ -266,79 +266,58 @@ Alessa es una base de datos centralizada de Farmacovigilancia que mejora trazabi
     </div>
   </section>
 
+<?php
+  $faqs      = require __DIR__ . '/php/faq_data.php';
+  $faqSlides = array_chunk($faqs, FAQ_PER_SLIDE);
+  $faqIndex  = 0;
+?>
 <section class="faq-section reveal" id="faq">
+  <span class="faq-blob faq-blob--teal" aria-hidden="true"></span>
+  <span class="faq-blob faq-blob--coral" aria-hidden="true"></span>
+
   <div class="faq-header">
     <span class="faq-label">FAQ</span>
     <h2 class="faq-title">Preguntas frecuentes</h2>
     <p class="faq-subtitle">
-      Estas son algunas de ls interrogantes mas comunes antes de iniciar un proceeso de validación
+      Estas son algunas de las interrogantes más comunes antes de iniciar un proceso de validación
     </p>
   </div>
 
-  <div class="faq-grid">
-    <div class="faq-item">
-      <button class="faq-question">
-        ¿Por qué es necesario contar con una base de datos validada?
-        <span class="arrow">▼</span>
-      </button>
-      <div class="faq-answer">
-        <p>Una base de datos validada garantiza la integridad, trazabilidad y confiabilidad de la información de seguridad de los pacientes. 
-          Además, asegura el cumplimiento con la normativa regulatoria internacionales que exigen sistemas validados para la gestión de SRA.</p>
+  <div class="faq-layout">
+    <div class="faq-slider">
+      <div class="faq-slides">
+        <?php foreach ($faqSlides as $s => $slide): ?>
+        <div class="faq-slide<?= $s === 0 ? ' active' : '' ?>" id="faq-slide-<?= $s ?>" role="tabpanel" aria-label="Preguntas <?= $faqIndex + 1 ?> a <?= $faqIndex + count($slide) ?>"<?= $s === 0 ? '' : ' hidden' ?>>
+          <?php foreach ($slide as $item): $faqIndex++; ?>
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-<?= $faqIndex ?>">
+              <span><?= htmlspecialchars($item['q'], ENT_QUOTES, 'UTF-8') ?></span>
+              <span class="arrow" aria-hidden="true">▼</span>
+            </button>
+            <div class="faq-answer" id="faq-answer-<?= $faqIndex ?>">
+              <p><?= htmlspecialchars($item['a'], ENT_QUOTES, 'UTF-8') ?></p>
+            </div>
+          </div>
+          <?php endforeach; ?>
+        </div>
+        <?php endforeach; ?>
       </div>
+
+      <?php if (count($faqSlides) > 1): ?>
+      <div class="faq-dots" role="tablist" aria-label="Páginas de preguntas">
+        <?php foreach ($faqSlides as $s => $slide): ?>
+        <button class="faq-dot<?= $s === 0 ? ' active' : '' ?>" type="button" role="tab" data-slide="<?= $s ?>" aria-controls="faq-slide-<?= $s ?>" aria-selected="<?= $s === 0 ? 'true' : 'false' ?>" aria-label="Página <?= $s + 1 ?> de preguntas"></button>
+        <?php endforeach; ?>
+      </div>
+      <?php endif; ?>
     </div>
 
-    <div class="faq-item">
-      <button class="faq-question">
-        Si ya cuento con una base de datos, ¿es necesario validarla?
-        <span class="arrow">▼</span>
-      </button>
-      <div class="faq-answer">
-        <p>Sí. Incluso si ya dispones de una base de datos operativa, esta debe ser validada para demostrar que cumple con los requisitos funcionales, técnicos y regulatorios aplicables.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question">
-        ¿Qué implica el proceso de validación de una base de datos?
-        <span class="arrow">▼</span>
-      </button>
-      <div class="faq-answer">
-        <p>Incluye la planificación, ejecución y documentación de pruebas que demuestran que el sistema cumple su propósito previsto. 
-          Abarca la validación de instalación (IQ), operación (OQ) y desempeño (PQ) y capacitación de usuarios.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question">
-        ¿Cuánto tiempo toma la validación deuna base de datos?
-        <span class="arrow">▼</span>
-      </button>
-      <div class="faq-answer">
-        <p>Depende de la complejidad del sistema, la disponibilidad de la información y el grado de automatización requerido. 
-          En promedio, el proceso puede tomar de 4 a 12 semanas.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question">
-        ¿Qué beneficios ofrece una base de datos validada?
-        <span class="arrow">▼</span>
-      </button>
-      <div class="faq-answer">
-        <p>Una base de datos validada permite garantizar la exactitud y trazabilidad de los reportes, reducir errores humanos, 
-          agilizar auditorías regulatorias y fortalecer la calidad del sistema de farmacovigilancia.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question">
-        ¿Qué pasa si el sistema no está validado ante una inspección?
-        <span class="arrow">▼</span>
-      </button>
-      <div class="faq-answer">
-        <p>Esto puede considerarse una no conformidad crítica, ya que compromete la confiabilidad de los datos de seguridad. Esto puede derivar en observaciones regulatorias, suspensión de procesos o pérdida de certificaciones de cumplimiento.</p>
-      </div>
-    </div>
+    <aside class="faq-cta">
+      <div class="faq-cta-icon" aria-hidden="true">?</div>
+      <h3>¿Tienes otra pregunta?</h3>
+      <p>Escríbenos y nuestro equipo resolverá tus dudas sobre la validación de tu base de datos.</p>
+      <a href="#contacto" class="faq-cta-btn">Escríbenos</a>
+    </aside>
   </div>
 </section>
 
@@ -496,7 +475,7 @@ Alessa es una base de datos centralizada de Farmacovigilancia que mejora trazabi
 
 <!-- Importar el script del slider y otros -->
 <script src="slider.js"></script>
-<script src="dropdiv.js"></script>
+<script src="dropdiv.js?v=4"></script>
 <script src="msgajax.js"></script>
 <script src="mobile-menu.js"></script>
 <script src="reveal.js"></script>
