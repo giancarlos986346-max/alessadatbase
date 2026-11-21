@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="estilos.css?v=3.4" />
+  <link rel="stylesheet" href="estilos.css?v=3.6" />
 </head>
 <body>
   <!-- Header -->
@@ -284,7 +284,7 @@ Alessa es una base de datos centralizada de Farmacovigilancia que mejora trazabi
   </div>
 
   <div class="faq-layout">
-    <div class="faq-slider">
+    <div class="faq-slider" data-interval="8000"><!-- tiempo por slide en ms -->
       <div class="faq-slides">
         <?php foreach ($faqSlides as $s => $slide): ?>
         <div class="faq-slide<?= $s === 0 ? ' active' : '' ?>" id="faq-slide-<?= $s ?>" role="tabpanel" aria-label="Preguntas <?= $faqIndex + 1 ?> a <?= $faqIndex + count($slide) ?>"<?= $s === 0 ? '' : ' hidden' ?>>
@@ -475,7 +475,7 @@ Alessa es una base de datos centralizada de Farmacovigilancia que mejora trazabi
 
 <!-- Importar el script del slider y otros -->
 <script src="slider.js"></script>
-<script src="dropdiv.js?v=4"></script>
+<script src="dropdiv.js?v=7"></script>
 <script src="msgajax.js"></script>
 <script src="mobile-menu.js"></script>
 <script src="reveal.js"></script>

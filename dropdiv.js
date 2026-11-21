@@ -1,7 +1,7 @@
 /**
  * Inicializa acordeones (tipo FAQ) en un contenedor dado.
  * Si el contenedor tiene slides (.faq-slide) y puntos (.faq-dot),
- * también activa la navegación entre slides.
+ * también activa la navegación entre slides y el avance automático.
  * @param {string} containerSelector - Selector CSS del contenedor principal (ej. ".faq-section")
  * @param {boolean} allowMultipleOpen - Si es true, permite varios abiertos a la vez.
  */
@@ -10,6 +10,7 @@ function initAccordion(containerSelector, allowMultipleOpen = false) {
     if (!container) return;
 
     const items = container.querySelectorAll(".faq-item");
+    let slider = null;
 
     const setOpen = (item, open) => {
         item.classList.toggle("open", open);
@@ -30,22 +31,41 @@ function initAccordion(containerSelector, allowMultipleOpen = false) {
             if (!allowMultipleOpen) closeAll();
 
             setOpen(item, !isOpen);
+
+            // Con una caja abierta el avance automático se detiene;
+            // al cerrarla, el tiempo vuelve a empezar desde cero.
+            if (slider) slider.restart();
         });
     });
 
-    initFaqSlides(container, closeAll);
+    slider = initFaqSlides(container, closeAll);
 }
 
 /**
  * Navegación por puntos entre slides de preguntas.
- * Fija la altura mínima al slide más alto (con todo cerrado)
- * para que la página no salte al cambiar de slide.
+ * - Fija la altura mínima al slide más alto (con todo cerrado)
+ *   para que la página no salte al cambiar de slide.
+ * - Avance automático en loop (data-interval en .faq-slider, en ms; 0 lo desactiva).
+ *   Se detiene si hay una caja abierta, si el mouse está sobre las preguntas,
+ *   si se navega con teclado, si la sección no está en pantalla o la pestaña está oculta.
+ *   No se activa si el usuario pidió reducir el movimiento.
+ * @returns {{restart: Function}|undefined}
  */
 function initFaqSlides(container, onChange) {
+    const slider = container.querySelector(".faq-slider");
     const slidesBox = container.querySelector(".faq-slides");
     const slides = container.querySelectorAll(".faq-slide");
     const dots = container.querySelectorAll(".faq-dot");
-    if (!slidesBox || slides.length < 2 || !dots.length) return;
+    if (!slider || !slidesBox || slides.length < 2 || !dots.length) return;
+
+    const autoplayMs = parseInt(slider.dataset.interval, 10) || 0;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let current = 0;
+    let timer = null;
+    let hovering = false;
+    let keyboardFocus = false;
+    let visible = false;
 
     const fixHeight = () => {
         slidesBox.style.minHeight = "";
@@ -65,6 +85,7 @@ function initFaqSlides(container, onChange) {
 
     const goTo = index => {
         onChange();
+        current = index;
         slides.forEach((slide, i) => { slide.hidden = i !== index; });
         dots.forEach((dot, i) => {
             const active = i === index;
@@ -74,8 +95,82 @@ function initFaqSlides(container, onChange) {
         });
     };
 
+    // ===== Avance automático =====
+    const canPlay = () =>
+        autoplayMs > 0 &&
+        !reduceMotion &&
+        visible &&
+        !hovering &&
+        !keyboardFocus &&
+        !document.hidden &&
+        !container.querySelector(".faq-item.open");
+
+    const stop = () => {
+        clearTimeout(timer);
+        timer = null;
+        dots.forEach(d => d.classList.remove("running"));
+    };
+
+    // Reinicia el conteo completo (y la barra de progreso del punto activo)
+    const restart = () => {
+        stop();
+        if (!canPlay()) return;
+        const dot = dots[current];
+        void dot.offsetWidth; // reinicia la animación CSS
+        dot.classList.add("running");
+        timer = setTimeout(() => {
+            goTo((current + 1) % slides.length);
+            restart();
+        }, autoplayMs);
+    };
+
+    if (autoplayMs > 0) {
+        slider.style.setProperty("--faq-autoplay", autoplayMs + "ms");
+
+        // Pausa mientras el mouse está sobre las preguntas (solo mouse, no táctil)
+        slider.addEventListener("pointerenter", e => {
+            if (e.pointerType !== "mouse") return;
+            hovering = true;
+            stop();
+        });
+        slider.addEventListener("pointerleave", e => {
+            if (e.pointerType !== "mouse") return;
+            hovering = false;
+            restart();
+        });
+
+        // Pausa mientras se navega con teclado dentro de las preguntas
+        slider.addEventListener("focusin", e => {
+            keyboardFocus = e.target.matches(":focus-visible");
+            if (keyboardFocus) stop();
+        });
+        slider.addEventListener("focusout", e => {
+            if (slider.contains(e.relatedTarget)) return;
+            keyboardFocus = false;
+            restart();
+        });
+
+        // Solo avanza cuando la sección está en pantalla
+        if ("IntersectionObserver" in window) {
+            new IntersectionObserver(entries => {
+                visible = entries[0].isIntersecting;
+                visible ? restart() : stop();
+            }, { threshold: 0.35 }).observe(slider);
+        } else {
+            visible = true;
+        }
+
+        // Pausa si la pestaña del navegador no está visible
+        document.addEventListener("visibilitychange", () => {
+            document.hidden ? stop() : restart();
+        });
+    }
+
     dots.forEach((dot, i) => {
-        dot.addEventListener("click", () => goTo(i));
+        dot.addEventListener("click", () => {
+            goTo(i);
+            restart();
+        });
 
         // Flechas izquierda/derecha entre los puntos (accesibilidad)
         dot.addEventListener("keydown", e => {
@@ -89,6 +184,9 @@ function initFaqSlides(container, onChange) {
 
     goTo(0);
     fixHeight();
+    restart();
     window.addEventListener("resize", fixHeight);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fixHeight);
+
+    return { restart };
 }
